@@ -84,10 +84,10 @@ class Player : public Characters {
 
 void Pause(int VampireTeam, int WerewolfTeam, int RedemptionPotions)      // Function used for Printing the desired data when the user Pauses the game
 {
-     int ch;
+     char ch;
      bool flag = 0;
      cout << "Number of Vampires Alive: " << VampireTeam << "\n" << "Number of Werewolves Alive: " << WerewolfTeam << "\n" << "Your available Mass Redemption Potions: " << RedemptionPotions;
-     cout << "\nPress Any key AND Enter to Continue";
+     cout << "\nPress Any key AND Enter to Continue\n";
      while (flag == 0)
      {
           cin >> ch;
@@ -132,9 +132,9 @@ int main()
      
      int i, j, x, movement, oldX, oldY, dimensionsX, dimensionsY,n,Dayperiod;      // we initialize the size of both teams to 0 (will be increase once team members are generated)
      char alliegiance, playerentry;
-     bool coinflip;
+     bool coinflip, TimeToHeal;
 
-     cout << "Insert the length and the height of the map respectively.\n" << endl;
+     cout << "Insert the length and the height of the map respectively." << endl;
      cin >> i >> j;      // i is width j is heigth
      dimensionsX = i;    // a value storage since I use i and j afterwards, honestly a cheap fix (not memory wise) 
      dimensionsY = j;
@@ -146,6 +146,7 @@ int main()
      cout << " \t\tChoose Team ";
      cout << "\n";
      cout << " Enter W for Werewolf Team and V for Vampire Team\n ";
+
 
      cin >> alliegiance;
 
@@ -181,7 +182,7 @@ int main()
      
      //***********************************************//
      // * * *  P R I N T I N G   T H E   M A P  * * * //
-     for (i = 0; i < dimensionsX + 2; i++)     // Top map border printing
+     for (i = 0; i < dimensionsX; i++)     // Top map border printing
           cout << OUTLINE "##" STANDARD_B;
 
           cout << endl;
@@ -203,7 +204,7 @@ int main()
               } else if (n == 2)
               {
                int tree = rand() % 4;
-               cout << TREES "/*" STANDARD_B;
+               cout << TREES "<>" STANDARD_B;
                map[j][i] = 2;
               }
           
@@ -211,7 +212,7 @@ int main()
           cout << OUTLINE "##" STANDARD_B << endl;
      }
 
-     for (i = 0; i < dimensionsX + 2; i++) // Bottom map border printing
+     for (i = 0; i < dimensionsX; i++) // Bottom map border printing
           cout << OUTLINE "##" STANDARD_B;
      
      cout << "\n";
@@ -283,8 +284,22 @@ cout << "Press E at any time to quit the game\t\n";
 
 Wait(6000);
 
+Dayperiod = 0;
 while (!Vampires.empty() || !Werewolves.empty() || (playerentry != 'e' && playerentry != 'E')) {
      coinflip = Randomizer(0,1);
+     Dayperiod += 1;
+     if (Dayperiod <= 7)
+     {
+          TimeToHeal = 1;
+     } else if (Dayperiod > 7 && Dayperiod < 14)
+     {
+          TimeToHeal = 0;
+     } else if (Dayperiod == 14)
+     {
+          TimeToHeal = 1;
+          Dayperiod = 0;
+     }
+
      if (playerentry == 'W' || playerentry == 'w')
      {
           if (map[playercharacter.x][playercharacter.y - 1] == 1)
@@ -337,12 +352,12 @@ while (!Vampires.empty() || !Werewolves.empty() || (playerentry != 'e' && player
      
      if (playerentry == 'H' || playerentry == 'h')
      {
-          if (playercharacter.Team == 0 && Dayperiod == 0 && playercharacter.RedemptionPotions > 0)
+          if (playercharacter.Team == 0 && TimeToHeal == 0 && playercharacter.RedemptionPotions > 0)
           {
                for (i = 0; i < x; i++) 
                     Werewolves[i].HP += 1;
                playercharacter.RedemptionPotions -= 1;
-          } else if (Dayperiod == 1 && playercharacter.RedemptionPotions > 0)
+          } else if (TimeToHeal == 1 && playercharacter.RedemptionPotions > 0)
           {
                for (i = 0; i < x; i++)
                     Vampires[i].HP += 1;
@@ -498,7 +513,7 @@ while (!Vampires.empty() || !Werewolves.empty() || (playerentry != 'e' && player
      }
      system("clear");
 
-     for (i = 0; i < dimensionsX + 2; i++) // Top map border printing
+     for (i = 0; i < dimensionsX; i++) // Top map border printing
           cout << OUTLINE "##" STANDARD_B;
 
      cout << endl;
@@ -512,18 +527,18 @@ while (!Vampires.empty() || !Werewolves.empty() || (playerentry != 'e' && player
                if (map[j][i] == 0)
                     cout << BLUE_B "  " STANDARD_B;    //map has water
                if (map[j][i] == 2)    //map has trees
-                    cout << TREES "/*" STANDARD_B;
+                    cout << TREES "<>" STANDARD_B;
                if (map[j][i] == 3)    //map has vampire
-                    cout << GREEN_B "V " STANDARD_B;
+                    cout << GREEN_B "V" STANDARD_B;
                if (map[j][i] == 4)    //map has werewolf
-                    cout << GREEN_B "W " STANDARD_B;
+                    cout << GREEN_B "W" STANDARD_B;
                if (map[j][i] == 5) // playerlocation
-                    cout << GREEN_B "P " STANDARD_B;
+                    cout << GREEN_B "P" STANDARD_B;
           }
           cout << OUTLINE "##" STANDARD_B << endl;
      }
 
-     for (i = 0; i < dimensionsX + 2; i++)  // Bottom map border printing
+     for (i = 0; i < dimensionsX; i++)  // Bottom map border printing
      { 
           cout << OUTLINE "##" STANDARD_B;
      }
@@ -537,3 +552,4 @@ while (!Vampires.empty() || !Werewolves.empty() || (playerentry != 'e' && player
 
 return 0;
 }
+
