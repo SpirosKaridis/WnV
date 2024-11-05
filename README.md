@@ -1,8 +1,1 @@
-# WnV
-
-Στοιχεία ομάδας:
-Μέλος Α: 
-Όνομα: Καρύδης Σπυρίδων
-Α.Μ: 1115202000256
-Ε-mail: sdi2000256@di.uoa.gr
-Έτος φοίτησης: 3ο
+"Presentation.pdf" contains technical specifications of the game.
