@@ -1,1 +1,1 @@
-"Presentation.pdf" contains technical specifications of the game.
+"Presentation.pdf" contains a technical explanation of the game.
